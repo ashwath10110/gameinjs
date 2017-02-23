@@ -9,6 +9,16 @@ var Game = Class.extend({
 
 	init: function() {
 		this.canvas = new Canvas(640, 480);
+
+		this.input = new InputHandler({
+			left: 37,
+			up: 38,
+			right: 39,
+			down: 40,
+			spacebar: 32,
+			enter: 13
+		});
+
 		this.canvas.ctx.strokeStyle = "white";
 		this.currentState = null;
 		this.nextState = States.GAME;
@@ -37,7 +47,7 @@ var Game = Class.extend({
 				self.nextState = States.NO_CHANGE;
 			}
 
-			self.currentState.handleInputs();
+			self.currentState.handleInputs(self.input);
 			self.currentState.update();
 			self.currentState.render(self.canvas.ctx);
 		});
