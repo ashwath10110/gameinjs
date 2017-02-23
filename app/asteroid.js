@@ -26,6 +26,10 @@ var Asteroid = Polygon.extend({
 
 	},
 
+	hasPoint: function(x, y) {
+		return this._super(this.x, this.y, x, y);
+	},
+
 	update: function() {
 		this.x += this.vel.x;
 		this.y += this.vel.y;
