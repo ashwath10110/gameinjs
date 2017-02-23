@@ -1,7 +1,3 @@
-/**
- * Global object containing all verticies for the game graphics,
- * see. polygondraw.html
- */
 var Points = {
 
 	ASTEROIDS: [

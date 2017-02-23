@@ -19,6 +19,7 @@ var GameState = State.extend({
 		var num = 3;
 
 		this.asteroids = [];
+		this.bullet = [];
 
 		for (var i = 0; i < num; i++) {
 
@@ -31,23 +32,26 @@ var GameState = State.extend({
 			this.asteroids.push(astr);
 		}
 		this.asteroidsCount = this.asteroids.length;
-
 	},
 
 	handleInputs: function(input) {
+
 		if (input.isDown("right")) {
 			this.ship.rotate(0.06);
 		}
+
 		if (input.isDown("left")) {
 			this.ship.rotate(-0.06);
 		}
 
+		this.ship.drawFlames = false;
+
 		if (input.isDown("up")) {
-			console.log(this.ship);
 			this.ship.addVel();
 		}
-		if (input.isDown("down")) {
-			console.log(this.ship);
+
+		if (input.isPressed("spacebar")) {
+			this.bullet.push(this.ship.shoot());
 		}
 	},
 
@@ -55,14 +59,33 @@ var GameState = State.extend({
 		for (var i = 0, len = this.asteroids.length; i < len; i++) {
 			this.asteroids[i].update();
 		}
+
+		for (var i = 0, len = this.bullet.length; i < len; i++) {
+			var b = this.bullet[i];
+			b.update();
+
+			if (b.shallRemove) {
+				this.bullet.splice(i, 1);
+				len--;
+				i--;
+			}
+		}
 		this.ship.update();
+
 	},
 
 	render: function(ctx) {
+		
 		ctx.clearAll();
+		
 		for (var i = 0, len = this.asteroids.length; i < len; i++) {
 			this.asteroids[i].draw(ctx);
 		}
+
 		this.ship.draw(ctx);
+
+		for (var i = 0, len = this.bullet.length; i < len; i++) {
+			this.bullet[i].draw(ctx);
+		}
 	}
 });

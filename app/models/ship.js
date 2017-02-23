@@ -14,12 +14,19 @@ var Ship = Polygon.extend({
 
 		this.scale(s);
 
+		this.drawFlames = false;
 		this.angle = 0;
-
 		this.vel = {
 			x: 0,
 			y: 0
 		}
+	},
+
+	shoot: function() {
+		var b = new Bullet(this.points[0] + this.x, this.points[1] + this.y, this.angle);
+		b.maxX = this.maxX;
+		b.maxY = this.maxY;
+		return b;
 	},
 
 	addVel: function() {
@@ -28,6 +35,7 @@ var Ship = Polygon.extend({
 			this.vel.x += 0.05 * Math.cos(this.angle);
 			this.vel.y += 0.05 * Math.sin(this.angle);
 		}
+		this.drawFlames = true;
 	},
 
 	rotate: function(theta) {
@@ -59,6 +67,9 @@ var Ship = Polygon.extend({
 
 	draw: function(ctx) {
 		ctx.drawPolygon(this, this.x, this.y);
-		ctx.drawPolygon(this.flames, this.x, this.y);
+
+		if (this.drawFlames) {
+			ctx.drawPolygon(this.flames, this.x, this.y);
+		}
 	}
 });
